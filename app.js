@@ -4,7 +4,7 @@ const sketchBoard = document.querySelector('#sketch-board');
 const clearButton = document.querySelector('#btn-clear');
 const colorButton = document.querySelector('#btn-color');
 const newGridButton = document.querySelector('#btn-new-grid');
-const selectedColor = document.querySelector('#color-picker');
+const colorPicker = document.querySelector('#color-picker');
 
 for (let i = 0; i < 256; i++) {
   const gridCells = document.createElement('div');
@@ -12,6 +12,7 @@ for (let i = 0; i < 256; i++) {
   sketchBoard.append(gridCells);
   drawOnSketch(gridCells);
   clearBoard(gridCells);
+  pickColor(gridCells);
 }
 
 //generate new grid
@@ -31,6 +32,7 @@ newGridButton.addEventListener('click', () => {
       sketchBoard.append(newGridCells);
       drawOnSketch(newGridCells);
       clearBoard(newGridCells);
+      pickColor(newGridCells);
     }
     sketchBoard.style.gridTemplateColumns = `repeat(${newGrid}, 1fr)`;
     sketchBoard.style.gridTemplateRows = `repeat(${newGrid}, 1fr)`;
@@ -45,9 +47,18 @@ function clearBoard(cells) {
 }
 
 //draw on sketch
-
 function drawOnSketch(cells) {
   cells.addEventListener('mouseover', () => {
     cells.style.backgroundColor = '#000';
+  });
+}
+
+//select color to draw
+function pickColor(cells) {
+  colorPicker.addEventListener('input', () => {
+    const selectedColor = colorPicker.value;
+    cells.addEventListener('mouseover', () => {
+      cells.style.backgroundColor = selectedColor;
+    });
   });
 }
